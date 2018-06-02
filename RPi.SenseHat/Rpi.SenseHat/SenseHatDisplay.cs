@@ -23,8 +23,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using Windows.UI;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
@@ -150,7 +150,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		public void Clear()
 		{
-			Fill(Colors.Black);
+			Fill(Color.Black);
 		}
 
 		public void Fill(Color color)

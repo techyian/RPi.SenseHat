@@ -23,8 +23,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using Unosquare.RaspberryIO;
+using Unosquare.RaspberryIO.Gpio;
 
 namespace RichardsTech.Sensors.Devices.HTS221
 {
@@ -35,7 +35,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 	{
 		private readonly byte _i2CAddress;
 
-		private I2cDevice _i2CDevice;
+		private I2CDevice _i2CDevice;
 
 		private Func<Int16, double> _temperatureConversionFunc;
 		private Func<Int16, double> _humidityConversionFunc;
@@ -47,18 +47,17 @@ namespace RichardsTech.Sensors.Devices.HTS221
 
 		public HTS221HumiditySensor(byte i2CAddress)
 		{
-			_i2CAddress = i2CAddress;
+            _i2CAddress = i2CAddress;
 		}
 
 		public override void Dispose()
 		{
 			base.Dispose();
-			_i2CDevice.Dispose();
 		}
 
         protected override async Task<bool> InitDeviceAsync()
 		{
-			await ConnectToI2CDevices();
+			this.ConnectToI2CDevices();
 
 			I2CSupport.Write(_i2CDevice, HTS221Defines.CTRL1, 0x87, "Failed to set HTS221 CTRL_REG_1");
 
@@ -119,24 +118,11 @@ namespace RichardsTech.Sensors.Devices.HTS221
 			return rawHumidity => rawHumidity * m + b;
 		}
 
-		private async Task ConnectToI2CDevices()
+		private void ConnectToI2CDevices()
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings i2CSettings = new I2cConnectionSettings(_i2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, i2CSettings);
+				_i2CDevice = Pi.I2C.AddDevice(0x10);
 			}
 			catch (Exception exception)
 			{

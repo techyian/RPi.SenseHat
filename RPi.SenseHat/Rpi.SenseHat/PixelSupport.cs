@@ -22,13 +22,13 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Graphics.Imaging;
-using Windows.Storage;
-using Windows.UI;
-using Windows.UI.Core;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
@@ -43,48 +43,31 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 			Color[,] pixels = null;
 
 			var pixelsLoadedEvent = new ManualResetEvent(false);
+            
+            using (FileStream stream = File.OpenRead(imageUri.AbsolutePath))
+		    using (Image<Rgba32> image = Image.Load(stream))
+		    {
+		        var pixelData = image.SavePixelData();
 
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-			{
-				StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(imageUri);
+		        pixels = new Color[image.Width, image.Height];
 
-				using (var imageContent = await imageFile.OpenReadAsync())
-				{
-					BitmapDecoder bitmapDecoder = await BitmapDecoder.CreateAsync(imageContent);
+                int pixelDataIndex = 0;
+                for (int y = 0; y < image.Height; y++)
+		        {
+		            for (int x = 0; x < image.Width; x++)
+		            {
+		                byte b = pixelData[pixelDataIndex];
+		                byte g = pixelData[pixelDataIndex + 1];
+		                byte r = pixelData[pixelDataIndex + 2];
+		                byte a = pixelData[pixelDataIndex + 3];
 
-					pixels = new Color[bitmapDecoder.PixelWidth, bitmapDecoder.PixelHeight];
+		                pixels[x, y] = Color.FromArgb(a, r, g, b);
 
-					PixelDataProvider pixelDataProvider = await bitmapDecoder.GetPixelDataAsync(
-						BitmapPixelFormat.Bgra8,
-						BitmapAlphaMode.Straight,
-						new BitmapTransform(),
-						ExifOrientationMode.IgnoreExifOrientation,
-						ColorManagementMode.DoNotColorManage);
-
-					byte[] pixelData = pixelDataProvider.DetachPixelData();
-
-					int pixelDataIndex = 0;
-					for (int y = 0; y < bitmapDecoder.PixelHeight; y++)
-					{
-						for (int x = 0; x < bitmapDecoder.PixelWidth; x++)
-						{
-							byte b = pixelData[pixelDataIndex];
-							byte g = pixelData[pixelDataIndex + 1];
-							byte r = pixelData[pixelDataIndex + 2];
-							byte a = pixelData[pixelDataIndex + 3];
-
-							pixels[x, y] = Color.FromArgb(a, r, g, b);
-
-							pixelDataIndex += 4;
-						}
-					}
-				}
-
-				pixelsLoadedEvent.Set();
-			});
-
-			pixelsLoadedEvent.WaitOne();
-
+		                pixelDataIndex += 4;
+		            }
+		        }
+            }
+            
 			return pixels;
 		}
 

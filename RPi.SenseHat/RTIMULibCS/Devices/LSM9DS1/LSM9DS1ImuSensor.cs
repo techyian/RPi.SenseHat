@@ -23,8 +23,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using Unosquare.RaspberryIO;
+using Unosquare.RaspberryIO.Gpio;
 
 namespace RichardsTech.Sensors.Devices.LSM9DS1
 {
@@ -36,8 +36,8 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		private readonly byte _accelGyroI2CAddress;
 		private readonly byte _magI2CAddress;
 		private readonly LSM9DS1Config _config;
-		private I2cDevice _accelGyroI2CDevice;
-		private I2cDevice _magI2CDevice;
+		private I2CDevice _accelGyroI2CDevice;
+		private I2CDevice _magI2CDevice;
 		private double _gyroScale;
 		private double _accelerationScale;
 		private double _magneticFieldScale;
@@ -58,13 +58,11 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		public override void Dispose()
 		{
 			base.Dispose();
-			_accelGyroI2CDevice.Dispose();
-			_magI2CDevice.Dispose();
 		}
 
 		protected override async Task<bool> InitDeviceAsync()
 		{
-			await ConnectToI2CDevices();
+			this.ConnectToI2CDevices();
 
 			await BootDevice();
 
@@ -81,31 +79,12 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 			return true;
 		}
 
-		private async Task ConnectToI2CDevices()
+		private void ConnectToI2CDevices()
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings accelGyroI2CSettings = new I2cConnectionSettings(_accelGyroI2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_accelGyroI2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, accelGyroI2CSettings);
-
-				I2cConnectionSettings magI2CSettings = new I2cConnectionSettings(_magI2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_magI2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, magI2CSettings);
+			    _accelGyroI2CDevice = Pi.I2C.AddDevice(0x10);
+			    _magI2CDevice = Pi.I2C.AddDevice(0x10);
 			}
 			catch (Exception exception)
 			{

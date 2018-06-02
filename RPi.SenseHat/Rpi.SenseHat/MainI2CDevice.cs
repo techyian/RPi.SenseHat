@@ -22,43 +22,27 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.Devices.I2c;
+using Unosquare.RaspberryIO.Gpio;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
-	internal sealed class MainI2CDevice : IDisposable
+	internal sealed class MainI2CDevice
 	{
-		private readonly I2cDevice _device;
+		private readonly I2CDevice _device;
 
-		public MainI2CDevice(I2cDevice device)
+		public MainI2CDevice(I2CDevice device)
 		{
 			_device = device;
 		}
 
-		public void Dispose()
-		{
-			_device.Dispose();
-		}
-
 		internal byte ReadByte(byte address)
 		{
-			byte[] buffer = { address };
-			byte[] value = new byte[1];
-
-			_device.WriteRead(buffer, value);
-
-			return value[0];
+			return _device.ReadAddressByte(address);
 		}
 
 		internal byte[] ReadBytes(byte address, int length)
 		{
-			byte[] values = new byte[length];
-			byte[] buffer = new byte[1];
-			buffer[0] = address;
-
-			_device.WriteRead(buffer, values);
-
-			return values;
+		    return _device.Read(length);
 		}
 
 		internal void WriteBytes(byte address, byte[] values)

@@ -23,8 +23,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using Unosquare.RaspberryIO;
+using Unosquare.RaspberryIO.Gpio;
 
 namespace RichardsTech.Sensors.Devices.LPS25H
 {
@@ -34,7 +34,7 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 	public class LPS25HPressureSensor : PressureSensor
 	{
 		private readonly byte _i2CAddress;
-		private I2cDevice _i2CDevice;
+		private I2CDevice _i2CDevice;
 
         private bool _pressureValid = false;
         private double _pressure = 0;
@@ -49,12 +49,11 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 		public override void Dispose()
 		{
 			base.Dispose();
-			_i2CDevice.Dispose();
 		}
 
 		protected override async Task<bool> InitDeviceAsync()
 		{
-			await ConnectToI2CDevices();
+			this.ConnectToI2CDevices();
 
 			I2CSupport.Write(_i2CDevice, LPS25HDefines.CTRL_REG_1, 0xc4, "Failed to set LPS25H CTRL_REG_1");
 
@@ -67,25 +66,12 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 			return true;
 		}
 
-		private async Task ConnectToI2CDevices()
+		private void ConnectToI2CDevices()
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings i2CSettings = new I2cConnectionSettings(_i2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, i2CSettings);
-			}
+			    _i2CDevice = Pi.I2C.AddDevice(0x10);
+            }
 			catch (Exception exception)
 			{
 				throw new SensorException("Failed to connect to LPS25H", exception);
@@ -108,14 +94,14 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 				Timestamp = DateTime.Now
 			};
 
-			if ((status & 0x02) == 0x02)
-			{
-				Int32 rawPressure = (Int32)I2CSupport.Read24Bits(_i2CDevice, LPS25HDefines.PRESS_OUT_XL + 0x80, ByteOrder.LittleEndian, "Failed to read LPS25H pressure");
+			//if ((status & 0x02) == 0x02)
+			//{
+			//	Int32 rawPressure = (Int32)I2CSupport.Read24Bits(_i2CDevice, LPS25HDefines.PRESS_OUT_XL + 0x80, ByteOrder.LittleEndian, "Failed to read LPS25H pressure");
 
-				_pressure = rawPressure / 4096.0;
-				_pressureValid = true;
-                newReadings = true;
-			}
+			//	_pressure = rawPressure / 4096.0;
+			//	_pressureValid = true;
+   //             newReadings = true;
+			//}
 
 			if ((status & 0x01) == 0x01)
 			{

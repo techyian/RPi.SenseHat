@@ -23,12 +23,12 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
 using RichardsTech.Sensors;
 using RichardsTech.Sensors.Devices.HTS221;
 using RichardsTech.Sensors.Devices.LPS25H;
 using RichardsTech.Sensors.Devices.LSM9DS1;
+using Unosquare.RaspberryIO;
+using Unosquare.RaspberryIO.Gpio;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
@@ -64,18 +64,8 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private static async Task<MainI2CDevice> CreateDisplayJoystickI2CDevice()
 		{
-			string aqsFilter = I2cDevice.GetDeviceSelector();
-
-			DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-
-			I2cConnectionSettings settings = new I2cConnectionSettings(DeviceAddress)
-			{
-				BusSpeed = I2cBusSpeed.StandardMode
-			};
-
-			I2cDevice i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, settings);
-
-			return new MainI2CDevice(i2CDevice);
+		    var device = Pi.I2C.AddDevice(0x10);
+            return new MainI2CDevice(device);
 		}
 
 		private static async Task<ImuSensor> CreateImuSensor()

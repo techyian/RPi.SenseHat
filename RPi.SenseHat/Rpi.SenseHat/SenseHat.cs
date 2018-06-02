@@ -50,8 +50,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 			{
 				return;
 			}
-
-			_mainI2CDevice.Dispose();
+            
 			((IDisposable)Sensors).Dispose();
 			_isDisposed = true;
 		}
