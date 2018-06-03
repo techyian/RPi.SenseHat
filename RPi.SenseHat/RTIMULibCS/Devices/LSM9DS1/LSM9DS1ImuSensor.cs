@@ -54,12 +54,7 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 			_config = config;
 			SampleRate = 100;
 		}
-
-		public override void Dispose()
-		{
-			base.Dispose();
-		}
-
+        
 		protected override async Task<bool> InitDeviceAsync()
 		{
 			this.ConnectToI2CDevices();
@@ -83,8 +78,8 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		{
 			try
 			{
-			    _accelGyroI2CDevice = Pi.I2C.AddDevice(0x10);
-			    _magI2CDevice = Pi.I2C.AddDevice(0x10);
+			    _accelGyroI2CDevice = Pi.I2C.AddDevice(0x1c);
+			    _magI2CDevice = Pi.I2C.AddDevice(0x6a);
 			}
 			catch (Exception exception)
 			{

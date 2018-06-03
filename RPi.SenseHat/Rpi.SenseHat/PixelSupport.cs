@@ -41,8 +41,6 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 		public static async Task<Color[,]> GetPixels(Uri imageUri)
 		{
 			Color[,] pixels = null;
-
-			var pixelsLoadedEvent = new ManualResetEvent(false);
             
             using (FileStream stream = File.OpenRead(imageUri.AbsolutePath))
 		    using (Image<Rgba32> image = Image.Load(stream))

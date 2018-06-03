@@ -49,12 +49,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 		{
             _i2CAddress = i2CAddress;
 		}
-
-		public override void Dispose()
-		{
-			base.Dispose();
-		}
-
+        
         protected override async Task<bool> InitDeviceAsync()
 		{
 			this.ConnectToI2CDevices();
@@ -122,7 +117,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 		{
 			try
 			{
-				_i2CDevice = Pi.I2C.AddDevice(0x10);
+				_i2CDevice = Pi.I2C.AddDevice(0x5f);
 			}
 			catch (Exception exception)
 			{
