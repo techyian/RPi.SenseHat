@@ -39,12 +39,12 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor
 		{
 		}
 
-		public static async Task<MultiColorFont> LoadFromImage(
+		public static MultiColorFont LoadFromImage(
 			Uri fontImageUri,
 			string symbols,
 			Color? transparencyColor = null)
 		{
-			Color[,] pixels = await PixelSupport.GetPixels(fontImageUri).ConfigureAwait(false);
+			Color[,] pixels = PixelSupport.GetPixels(fontImageUri);
 
 			return LoadFromImage(pixels, symbols, transparencyColor);
 		}

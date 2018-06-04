@@ -8,9 +8,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
+  </PropertyGroup>  
   <ItemGroup>
     <PackageReference Include="Unosquare.Raspberry.IO" Version="0.14.0" />
     <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.1.0" />
+  </ItemGroup> 
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>      
 </Project>

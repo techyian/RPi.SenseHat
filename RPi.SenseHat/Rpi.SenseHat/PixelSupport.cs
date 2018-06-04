@@ -38,7 +38,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 		/// Gets a 2-dimensional pixel array from an image.
 		/// </summary>
 		/// <param name="imageUri">The URI to the image.</param>
-		public static async Task<Color[,]> GetPixels(Uri imageUri)
+		public static Color[,] GetPixels(Uri imageUri)
 		{
 			Color[,] pixels = null;
             

@@ -51,7 +51,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private static async Task<ISenseHat> GetSenseHatTask()
 		{
-			MainI2CDevice mainI2CDevice = await CreateDisplayJoystickI2CDevice().ConfigureAwait(false);
+			MainI2CDevice mainI2CDevice = CreateDisplayJoystickI2CDevice();
 
 			ImuSensor imuSensor = await CreateImuSensor().ConfigureAwait(false);
 
@@ -62,7 +62,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 			return new SenseHat(mainI2CDevice, imuSensor, pressureSensor, humiditySensor);
 		}
 
-		private static async Task<MainI2CDevice> CreateDisplayJoystickI2CDevice()
+		private static MainI2CDevice CreateDisplayJoystickI2CDevice()
 		{
 		    var device = Pi.I2C.AddDevice(0x10);
             return new MainI2CDevice(device);
