@@ -117,7 +117,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 		{
 			try
 			{
-				_i2CDevice = Pi.I2C.AddDevice(0x5f);
+				_i2CDevice = Pi.I2C.AddDevice(_i2CAddress);
 			}
 			catch (Exception exception)
 			{
