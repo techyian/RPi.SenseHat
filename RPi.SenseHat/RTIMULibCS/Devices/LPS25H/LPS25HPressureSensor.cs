@@ -65,7 +65,7 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 		{
 			try
 			{
-			    _i2CDevice = Pi.I2C.AddDevice(0x5c);
+			    _i2CDevice = Pi.I2C.AddDevice(_i2CAddress);
             }
 			catch (Exception exception)
 			{
