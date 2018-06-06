@@ -78,8 +78,8 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		{
 			try
 			{
-			    _accelGyroI2CDevice = Pi.I2C.AddDevice(LSM9DS1Defines.ADDRESS0);
-			    _magI2CDevice = Pi.I2C.AddDevice(LSM9DS1Defines.MAG_ADDRESS0);
+			    _accelGyroI2CDevice = Pi.I2C.AddDevice(_accelGyroI2CAddress);
+			    _magI2CDevice = Pi.I2C.AddDevice(_magI2CAddress);
 			}
 			catch (Exception exception)
 			{
