@@ -89,16 +89,16 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 				Timestamp = DateTime.Now
 			};
 
-			//if ((status & 0x02) == 0x02)
-			//{
-			//	Int32 rawPressure = (Int32)I2CSupport.Read24Bits(_i2CDevice, LPS25HDefines.PRESS_OUT_XL + 0x80, ByteOrder.LittleEndian, "Failed to read LPS25H pressure");
+            if ((status & 0x02) == 0x02)
+            {
+                Int32 rawPressure = (Int32)I2CSupport.Read24Bits(_i2CDevice, LPS25HDefines.PRESS_OUT_XL + 0x80, ByteOrder.LittleEndian, "Failed to read LPS25H pressure");
 
-			//	_pressure = rawPressure / 4096.0;
-			//	_pressureValid = true;
-   //             newReadings = true;
-			//}
+                _pressure = rawPressure / 4096.0;
+                _pressureValid = true;
+                newReadings = true;
+            }
 
-			if ((status & 0x01) == 0x01)
+            if ((status & 0x01) == 0x01)
 			{
 				Int16 rawTemperature = (Int16)I2CSupport.Read16Bits(_i2CDevice, LPS25HDefines.TEMP_OUT_L + 0x80, ByteOrder.LittleEndian, "Failed to read LPS25H temperature");
 

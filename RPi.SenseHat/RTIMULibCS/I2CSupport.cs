@@ -77,63 +77,55 @@ namespace RichardsTech.Sensors
 			}
 		}
 
-		/*public static UInt32 Read24Bits(I2CDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+        public static UInt32 Read24Bits(I2CDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
+        {
+            try
+            {
+                byte[] data = ReadBytes(device, reg, 24, exceptionMessage);
 
-				byte[] data = new byte[3];
+                switch (byteOrder)
+                {
+                    case ByteOrder.BigEndian:
+                        return (UInt32)((data[0] << 16) | (data[1] << 8) | data[2]);
 
-				device.WriteRead(addr, data);
+                    case ByteOrder.LittleEndian:
+                        return (UInt32)((data[2] << 16) | (data[1] << 8) | data[0]);
 
-				switch (byteOrder)
-				{
-					case ByteOrder.BigEndian:
-						return (UInt32)((data[0] << 16) | (data[1] << 8) | data[2]);
+                    default:
+                        throw new SensorException($"Unsupported byte order {byteOrder}");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new SensorException(exceptionMessage, exception);
+            }
+        }
 
-					case ByteOrder.LittleEndian:
-						return (UInt32)((data[2] << 16) | (data[1] << 8) | data[0]);
+        public static UInt32 Read32Bits(I2CDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
+        {
+            try
+            {
+                byte[] data = ReadBytes(device, reg, 32, exceptionMessage);
+                
+                switch (byteOrder)
+                {
+                    case ByteOrder.BigEndian:
+                        return (UInt32)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]);
 
-					default:
-						throw new SensorException($"Unsupported byte order {byteOrder}");
-				}
-			}
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}*/
+                    case ByteOrder.LittleEndian:
+                        return (UInt32)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]);
 
-		//public static UInt32 Read32Bits(I2CDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
-		//{
-		//	try
-		//	{
-		//		byte[] addr = { reg };
+                    default:
+                        throw new SensorException($"Unsupported byte order {byteOrder}");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new SensorException(exceptionMessage, exception);
+            }
+        }
 
-		//		byte[] data = new byte[4];
-
-		//		device.WriteRead(addr, data);
-
-		//		switch (byteOrder)
-		//		{
-		//			case ByteOrder.BigEndian:
-		//				return (UInt32)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]);
-
-		//			case ByteOrder.LittleEndian:
-		//				return (UInt32)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]);
-
-		//			default:
-		//				throw new SensorException($"Unsupported byte order {byteOrder}");
-		//		}
-		//	}
-		//	catch (Exception exception)
-		//	{
-		//		throw new SensorException(exceptionMessage, exception);
-		//	}
-		//}
-
-		public static byte[] ReadBytes(I2CDevice device, byte reg, int count, string exceptionMessage)
+        public static byte[] ReadBytes(I2CDevice device, byte reg, int count, string exceptionMessage)
 		{
 			try
 			{
