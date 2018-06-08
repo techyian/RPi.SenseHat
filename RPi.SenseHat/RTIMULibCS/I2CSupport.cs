@@ -81,7 +81,7 @@ namespace RichardsTech.Sensors
         {
             try
             {
-                byte[] data = ReadBytes(device, reg, 24, exceptionMessage);
+                byte[] data = ReadBytes(device, reg, 3, exceptionMessage);
 
                 switch (byteOrder)
                 {
@@ -105,7 +105,7 @@ namespace RichardsTech.Sensors
         {
             try
             {
-                byte[] data = ReadBytes(device, reg, 32, exceptionMessage);
+                byte[] data = ReadBytes(device, reg, 4, exceptionMessage);
                 
                 switch (byteOrder)
                 {
