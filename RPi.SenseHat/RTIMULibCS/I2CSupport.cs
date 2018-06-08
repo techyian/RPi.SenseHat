@@ -137,7 +137,13 @@ namespace RichardsTech.Sensors
 		{
 			try
 			{
-				return device.Read(count);
+			    var buffer = new byte[count];
+			    for (var i = 0; i < count; i++)
+			    {
+			        buffer[i] = device.ReadAddressByte(reg);
+			    }
+
+			    return buffer;
 			}
 			catch (Exception exception)
 			{
