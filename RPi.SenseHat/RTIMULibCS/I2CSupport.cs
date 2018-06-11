@@ -32,8 +32,7 @@ namespace RichardsTech.Sensors
 		{
 			try
 			{
-				byte[] buffer = { reg, command };
-				device.Write(buffer);
+				device.WriteAddressByte(reg, command);
 			}
 			catch (Exception exception)
 			{
@@ -45,7 +44,7 @@ namespace RichardsTech.Sensors
 		{
 			try
 			{
-			    return device.ReadAddressByte(reg);
+                return device.ReadAddressByte(reg);
 			}
 			catch (Exception exception)
 			{
@@ -57,19 +56,7 @@ namespace RichardsTech.Sensors
 		{
 			try
 			{
-			    var data = device.ReadAddressWord(reg);
-				
-				switch (byteOrder)
-				{
-					case ByteOrder.BigEndian:
-						return (UInt16)((data << 8) | data);
-
-					case ByteOrder.LittleEndian:
-						return (UInt16)((data << 8) | data);
-
-					default:
-						throw new SensorException($"Unsupported byte order {byteOrder}");
-				}
+                return device.ReadAddressWord(reg);
 			}
 			catch (Exception exception)
 			{
@@ -82,7 +69,7 @@ namespace RichardsTech.Sensors
             try
             {
                 byte[] data = ReadBytes(device, reg, 3, exceptionMessage);
-
+                
                 switch (byteOrder)
                 {
                     case ByteOrder.BigEndian:
@@ -124,18 +111,12 @@ namespace RichardsTech.Sensors
                 throw new SensorException(exceptionMessage, exception);
             }
         }
-
+        
         public static byte[] ReadBytes(I2CDevice device, byte reg, int count, string exceptionMessage)
 		{
 			try
 			{
-			    var buffer = new byte[count];
-			    for (var i = 0; i < count; i++)
-			    {
-			        buffer[i] = device.ReadAddressByte(reg);
-			    }
-
-			    return buffer;
+			    return device.ReadAddressBlock(reg, count);
 			}
 			catch (Exception exception)
 			{

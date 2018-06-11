@@ -1,19 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">  
   <PropertyGroup>
     <AssemblyTitle>RTIMULibCS</AssemblyTitle>
-    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>RTIMULibCS</AssemblyName>
     <PackageId>RTIMULibCS</PackageId>
     <RootNamespace>RichardsTech.Sensors</RootNamespace>    
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>  
-  <ItemGroup>
-    <PackageReference Include="Unosquare.Raspberry.IO" Version="0.14.0" />
-    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.1.0" />
-  </ItemGroup> 
+  </PropertyGroup> 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup> 
+  <ItemGroup>
+    <PackageReference Include="Unosquare.Swan" Version="0.28.1" />
+  </ItemGroup> 
+  <ItemGroup>
+    <Reference Include="Unosquare.RaspberryIO">
+      <HintPath>..\..\..\raspberryio\src\Unosquare.RaspberryIO\bin\Debug\netstandard2.0\Unosquare.RaspberryIO.dll</HintPath>
+    </Reference>
+    <Reference Include="Unosquare.RaspberryIO.Peripherals">
+      <HintPath>..\..\..\raspberryio\src\Unosquare.RaspberryIO.Peripherals\bin\Debug\netstandard2.0\Unosquare.RaspberryIO.Peripherals.dll</HintPath>
+    </Reference>
   </ItemGroup>      
 </Project>
