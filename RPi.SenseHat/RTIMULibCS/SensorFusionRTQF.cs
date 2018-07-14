@@ -106,30 +106,15 @@ namespace RichardsTech.Sensors
             MagneticField = EnableMagneticField && imuReadings.MagneticFieldValid
                 ? (Vector3?)imuReadings.MagneticField
                 : null;
+    
+            LastFusionTime = imuReadings.Timestamp;
+            CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
 
-            if (FirstTime) {
-                LastFusionTime = imuReadings.Timestamp;
-                CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
-
-                //  initialize the poses
-
-                StateQ.FromEuler(MeasuredPose);
-                FusionQPose = StateQ;
-                FusionPose = MeasuredPose;
-                FirstTime = false;
-            } else {
-                TimeDelta = imuReadings.Timestamp - LastFusionTime;
-                if (TimeDelta > TimeSpan.Zero) {
-                    CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
-                    Predict();
-                    Update();
-                    StateQ.ToEuler(out FusionPose);
-                    FusionQPose = StateQ;
-                }
-
-                LastFusionTime = imuReadings.Timestamp;
-            }
-
+            //  initialize the poses
+            StateQ.FromEuler(MeasuredPose);
+            FusionQPose = StateQ;
+            FusionPose = MeasuredPose;
+            
             imuReadings.FusionPoseValid = true;
             imuReadings.FusionQPoseValid = true;
             imuReadings.FusionPose = FusionPose;
