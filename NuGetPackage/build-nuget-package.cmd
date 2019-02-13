@@ -1,4 +1,4 @@
-nuget pack "..\RPi.SenseHat\RPi.SenseHat\RPi.SenseHat.csproj" -Symbols -IncludeReferencedProjects -Prop Configuration=Release
+nuget pack "..\Rpi.SenseHat\Rpi.SenseHat\Rpi.SenseHat.csproj" -Symbols -IncludeReferencedProjects -Prop Configuration=Release
 @echo.
 @echo.
 @echo After a successful NuGet package build:
@@ -8,4 +8,4 @@ nuget pack "..\RPi.SenseHat\RPi.SenseHat\RPi.SenseHat.csproj" -Symbols -IncludeR
 @echo Where the {API KEY} is gotten from https://www.nuget.org/account.
 @echo.
 @echo Then execute:
-@echo nuget push Emmellsoft.IoT.RPi.SenseHat.xxxxxxxx.nupkg
+@echo nuget push Emmellsoft.IoT.Rpi.SenseHat.xxxxxxxx.nupkg

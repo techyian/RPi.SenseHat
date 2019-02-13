@@ -28,14 +28,14 @@ using RichardsTech.Sensors.Devices.HTS221;
 using RichardsTech.Sensors.Devices.LPS25H;
 using RichardsTech.Sensors.Devices.LSM9DS1;
 using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Gpio;
+using Unosquare.WiringPi;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
-	/// <summary>
-	/// Factory for creating the ISenseHat object.
-	/// </summary>
-	public static class SenseHatFactory
+    /// <summary>
+    /// Factory for creating the ISenseHat object.
+    /// </summary>
+    public static class SenseHatFactory
 	{
 		private const byte DeviceAddress = 0x46;
 
@@ -46,6 +46,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 		/// </summary>
 		public static Task<ISenseHat> GetSenseHat()
 		{
+			Pi.Init<BootstrapWiringPi>();
 			return _getSenseHatTask;
 		}
 
@@ -64,8 +65,19 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private static MainI2CDevice CreateDisplayJoystickI2CDevice()
 		{
-		    var device = Pi.I2C.AddDevice(0x10);
-            return new MainI2CDevice(device);
+			var device = Pi.I2C.AddDevice(0x1c);
+			if(Pi.I2C.Devices.Count < 1)
+				Console.WriteLine("NO DEVICES :O");
+			foreach(var a in Pi.I2C.Devices)
+			{
+				Console.WriteLine("On devices - id =" + a.DeviceId);
+				Console.WriteLine(a.ToString());
+				Console.WriteLine("------------");
+			}
+		    
+			MainI2CDevice main = new MainI2CDevice(device);
+			Console.WriteLine("I2C created");
+            return main;
 		}
 
 		private static async Task<ImuSensor> CreateImuSensor()

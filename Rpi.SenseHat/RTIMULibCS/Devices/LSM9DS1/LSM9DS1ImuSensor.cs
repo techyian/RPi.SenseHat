@@ -24,7 +24,7 @@
 using System;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Gpio;
+using Unosquare.RaspberryIO.Abstractions;
 
 namespace RichardsTech.Sensors.Devices.LSM9DS1
 {
@@ -36,8 +36,8 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		private readonly byte _accelGyroI2CAddress;
 		private readonly byte _magI2CAddress;
 		private readonly LSM9DS1Config _config;
-		private I2CDevice _accelGyroI2CDevice;
-		private I2CDevice _magI2CDevice;
+		private II2CDevice _accelGyroI2CDevice;
+		private II2CDevice _magI2CDevice;
 		private double _gyroScale;
 		private double _accelerationScale;
 		private double _magneticFieldScale;
@@ -344,23 +344,12 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 				return false;
 			}
 
-            byte[] gyroData = new byte[6];
-		    for (var i = 0; i < gyroData.Length; i++)
-		    {
-		        gyroData[i] = I2CSupport.ReadBytes(_accelGyroI2CDevice, (byte)(i + LSM9DS1Defines.OUT_X_L_G), 1, "Failed to read LSM9DS1 gyro data")[0];
-            }
-            
-		    byte[] accelData = new byte[6];
-		    for (var i = 0; i < gyroData.Length; i++)
-		    {
-		        accelData[i] = I2CSupport.ReadBytes(_accelGyroI2CDevice, (byte)(i + LSM9DS1Defines.OUT_X_L_XL), 1, "Failed to read LSM9DS1 accel data")[0];
-            }
-            
-		    byte[] magData = new byte[6];
-		    for (var i = 0; i < gyroData.Length; i++)
-		    {
-                magData[i] = I2CSupport.ReadBytes(_magI2CDevice, (byte)(i + LSM9DS1Defines.MAG_OUT_X_L), 1, "Failed to read LSM9DS1 compass data")[0];
-            }
+            byte[] gyroData = I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_G, 6, "Failed to read LSM9DS1 gyro data");
+
+			byte[] accelData = I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_XL, 6, "Failed to read LSM9DS1 accel data");
+
+			byte[] magData = I2CSupport.ReadBytes(_magI2CDevice, 0x80 + LSM9DS1Defines.MAG_OUT_X_L, 6, "Failed to read LSM9DS1 compass data");
+
             
             var readings = new SensorReadings
 			{

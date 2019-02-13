@@ -1,4 +1,4 @@
-1. Update the version field in "RPi.SenseHat.nuspec" (next to the csproj-file).
+1. Update the version field in "Rpi.SenseHat.nuspec" (next to the csproj-file).
 
 2. Open a CMD in this folder.
 
@@ -10,6 +10,6 @@ nuget setApiKey {API KEY}
 Where the {API KEY} is gotten from https://www.nuget.org/account
 
 5. Execute:
-nuget push Emmellsoft.IoT.RPi.SenseHat.{#.#.#.#}.nupkg
+nuget push Emmellsoft.IoT.Rpi.SenseHat.{#.#.#.#}.nupkg
 
 Where {#.#.#.#} is the current version.

@@ -22,15 +22,15 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Unosquare.RaspberryIO.Gpio;
+using Unosquare.RaspberryIO.Abstractions;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
 	internal sealed class MainI2CDevice
 	{
-		private readonly I2CDevice _device;
+		private readonly II2CDevice _device;
 
-		public MainI2CDevice(I2CDevice device)
+		public MainI2CDevice(II2CDevice device)
 		{
 			_device = device;
 		}

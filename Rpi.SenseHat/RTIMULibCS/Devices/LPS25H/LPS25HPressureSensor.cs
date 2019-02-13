@@ -24,7 +24,7 @@
 using System;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Gpio;
+using Unosquare.RaspberryIO.Abstractions;
 
 namespace RichardsTech.Sensors.Devices.LPS25H
 {
@@ -34,7 +34,7 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 	public class LPS25HPressureSensor : PressureSensor
 	{
 		private readonly byte _i2CAddress;
-		private I2CDevice _i2CDevice;
+		private II2CDevice _i2CDevice;
 
         private bool _pressureValid = false;
         private double _pressure = 0;

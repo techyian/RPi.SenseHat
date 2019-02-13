@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">  
   <PropertyGroup>
     <AssemblyTitle>Emmellsoft.IoT.Rpi.SenseHat.Tools</AssemblyTitle>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+    <OutputType>exe</OutputType>
     <AssemblyName>Emmellsoft.IoT.Rpi.SenseHat.Tools</AssemblyName>
     <PackageId>Emmellsoft.IoT.Rpi.SenseHat.Tools</PackageId>
     <RootNamespace>Emmellsoft.IoT.Rpi.SenseHat.Tools</RootNamespace>    
@@ -13,11 +15,11 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RPi.SenseHat\RPi.SenseHat.csproj" />
+    <ProjectReference Include="..\Rpi.SenseHat\Rpi.SenseHat.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
   </ItemGroup>  
 </Project>

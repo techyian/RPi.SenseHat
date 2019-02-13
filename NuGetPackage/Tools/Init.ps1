@@ -4,8 +4,8 @@ $projectFullName = $project.FullName
 $projectFileInfo = new-object -typename System.IO.FileInfo -ArgumentList $projectFullName
 
 # Get the source paths
-$sourcePath = join-path $installPath 'Content'              # E.g. "C:\Users\Mattias\.nuget\packages\Emmellsoft.IoT.RPi.SenseHat\0.1.0.7\Content"
-$sourceDemosPath = join-path $installPath 'Content\Demos'   # E.g. "C:\Users\Mattias\.nuget\packages\Emmellsoft.IoT.RPi.SenseHat\0.1.0.7\Content\Demos"
+$sourcePath = join-path $installPath 'Content'              # E.g. "C:\Users\Mattias\.nuget\packages\Emmellsoft.IoT.Rpi.SenseHat\0.1.0.7\Content"
+$sourceDemosPath = join-path $installPath 'Content\Demos'   # E.g. "C:\Users\Mattias\.nuget\packages\Emmellsoft.IoT.Rpi.SenseHat\0.1.0.7\Content\Demos"
 
 # Get the dest paths
 $projectPath = $projectFileInfo.DirectoryName               # E.g. "C:\Users\Mattias\Projects\Test\2015\MyNugetTest\MyNugetTest"
@@ -39,7 +39,7 @@ Write-Host "  {"
 Write-Host "      this.InitializeComponent();"
 Write-Host ""
 Write-Host "      // Replace the ""DiscoLights"" class below with the demo you want to run! :-)"
-Write-Host "      RPi.SenseHat.Demo.DemoRunner.Run(senseHat => new RPi.SenseHat.Demo.Demos.DiscoLights(senseHat));"
+Write-Host "      Rpi.SenseHat.Demo.DemoRunner.Run(senseHat => new Rpi.SenseHat.Demo.Demos.DiscoLights(senseHat));"
 Write-Host "  }"
 
 

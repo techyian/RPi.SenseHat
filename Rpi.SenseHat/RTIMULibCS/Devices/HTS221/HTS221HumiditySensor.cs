@@ -24,7 +24,7 @@
 using System;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Gpio;
+using Unosquare.RaspberryIO.Abstractions;
 
 namespace RichardsTech.Sensors.Devices.HTS221
 {
@@ -35,7 +35,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 	{
 		private readonly byte _i2CAddress;
 
-		private I2CDevice _i2CDevice;
+		private II2CDevice _i2CDevice;
 
 		private Func<Int16, double> _temperatureConversionFunc;
 		private Func<Int16, double> _humidityConversionFunc;

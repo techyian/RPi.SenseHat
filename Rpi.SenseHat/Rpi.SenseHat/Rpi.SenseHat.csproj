@@ -12,28 +12,30 @@
   
   <ItemGroup>
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0004" />
-    <PackageReference Include="Unosquare.Swan" Version="0.28.1" />
+    <!--PackageReference Include="Unosquare.Raspberry.IO" Version="0.18.0" />
+    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.2.3" /-->
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">    
 	<PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
-  <ProjectReference Include="..\RTIMULibCS\RTIMULibCS.csproj" />    
-  </ItemGroup>      
+    <ProjectReference Include="./../../../raspberryio/src/Unosquare.RaspberryIO/Unosquare.RaspberryIO.csproj" />    
+    <ProjectReference Include="./../../../raspberryio/src/Unosquare.RaspberryIO.Peripherals/Unosquare.RaspberryIO.Peripherals.csproj" />
+    <ProjectReference Include="../RTIMULibCS/RTIMULibCS.csproj" />    
+  </ItemGroup>
+  <!-- <ItemGroup>
+    <Folder Include="Properties/" />
+  </ItemGroup>       -->
   
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>      
-  
-  <ItemGroup>
+  <!--ItemGroup>
     <Reference Include="Unosquare.RaspberryIO">
-      <HintPath>..\..\..\raspberryio\src\Unosquare.RaspberryIO\bin\Debug\netstandard2.0\Unosquare.RaspberryIO.dll</HintPath>
+      <HintPath>../../../raspberryio/src/Unosquare.RaspberryIO/bin/Debug/netstandard2.0/linux-arm/Unosquare.RaspberryIO.dll</HintPath>
     </Reference>
     <Reference Include="Unosquare.RaspberryIO.Peripherals">
-      <HintPath>..\..\..\raspberryio\src\Unosquare.RaspberryIO.Peripherals\bin\Debug\netstandard2.0\Unosquare.RaspberryIO.Peripherals.dll</HintPath>
+      <HintPath>../../../raspberryio/src/Unosquare.RaspberryIO.Peripherals/bin/Debug/netstandard2.0/linux-arm/Unosquare.RaspberryIO.Peripherals.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  </ItemGroup-->
 </Project>

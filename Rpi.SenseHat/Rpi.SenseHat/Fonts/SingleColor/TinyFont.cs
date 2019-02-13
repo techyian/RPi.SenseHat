@@ -41,7 +41,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor
 
 		static TinyFont()
 		{
-			// These bytes are calculated by the RPi.SenseHat.Tools.
+			// These bytes are calculated by the Rpi.SenseHat.Tools.
 			// See the method "SingleColorTinyFontWork"!
 			var fontBytes = new byte[]
 			{

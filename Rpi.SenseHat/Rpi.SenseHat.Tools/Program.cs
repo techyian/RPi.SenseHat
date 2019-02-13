@@ -27,6 +27,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 using Emmellsoft.IoT.Rpi.SenseHat.Tools.Font;
@@ -36,18 +38,79 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Tools
 {
 	internal static class Program
 	{
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
-			ColorFontWork();
-			LedBufferWork();
-			SingleColorFontWork();
-			SingleColorTinyFontWork();
+			ISenseHat senseHat = await SenseHatFactory.GetSenseHat().ConfigureAwait(false);
+			senseHat.Sensors.ImuSensor.Update();
+			//senseHat.Sensors.HumiditySensor.Update();
+			if(senseHat.Sensors.MagneticField.HasValue)
+			{
+				
+				Console.WriteLine(DateTime.Now);
+				Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
+				Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
+			}
+			else
+				Console.WriteLine("no mag");
+
+			await Task.Delay(2*1000);
+			senseHat.Sensors.ImuSensor.Update();
+
+			if(senseHat.Sensors.MagneticField.HasValue)
+			{
+				Console.WriteLine(DateTime.Now);
+				Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
+				Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
+			}
+			else
+				Console.WriteLine("no mag");
 		}
+
+		 private static readonly Color _activeBitColor = Color.Red;
+        private static readonly Color _inctiveBitColor = Color.DimGray;
+
+		private static void BinaryClock(ISenseHat senseHat)
+		{
+			 while (true)
+            {
+				Console.WriteLine("Inside BinaryClock forever cycle.");
+                senseHat.Display.Clear();
+                senseHat.Display.Screen[0, 0] = _activeBitColor; // Place a dot to mark the top left corner.
+
+                DateTime now = DateTime.Now;
+
+                DrawBinary(senseHat, 0, now.Hour);
+                DrawBinary(senseHat, 3, now.Minute);
+                DrawBinary(senseHat, 6, now.Second);
+
+                senseHat.Display.Update(); // Update the physical display.
+
+               // SetScreenText?.Invoke(now.ToString("HH':'mm':'ss")); // Update the MainPage (if it's utilized; i.e. not null).
+
+                // Take a short nap.
+                Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            }
+        }
+
+        private static void DrawBinary(ISenseHat senseHat, int x, int value)
+        {
+            for (int y = 7; y >= 0; y--)
+            {
+                Color bitColor = (value % 2 == 1)
+                    ? _activeBitColor
+                    : _inctiveBitColor;
+
+                senseHat.Display.Screen[x, y] = bitColor;
+                senseHat.Display.Screen[x + 1, y] = bitColor;
+
+                value = value >> 1;
+            }
+        }
 
 		private static void ColorFontWork()
 		{
 			const string symbols = " ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖÉÜabcdefghijklmnopqrstuvwxyzåäöéü0123456789.,?!\"#$%&-+*:;/\\<>()'`=";
-			const string relativeImagePath = @"..\..\..\RPi.SenseHat.Demo\Assets\ColorFont.png";
+			const string relativeImagePath = @"..\..\..\Rpi.SenseHat.Demo\Assets\ColorFont.png";
 
 			var dir = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
 			var path = Path.GetFullPath(Path.Combine(dir ?? string.Empty, relativeImagePath));

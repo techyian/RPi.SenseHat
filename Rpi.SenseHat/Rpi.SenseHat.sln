@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPi.SenseHat.Tools", "RPi.SenseHat.Tools\RPi.SenseHat.Tools.csproj", "{4C15DA49-FDD7-456B-ABDF-0E6D135AAD75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpi.SenseHat.Tools", "Rpi.SenseHat.Tools\Rpi.SenseHat.Tools.csproj", "{4C15DA49-FDD7-456B-ABDF-0E6D135AAD75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPi.SenseHat", "RPi.SenseHat\RPi.SenseHat.csproj", "{F5C43428-288F-4696-93CD-1088E77DB5BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpi.SenseHat", "Rpi.SenseHat\Rpi.SenseHat.csproj", "{F5C43428-288F-4696-93CD-1088E77DB5BF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RTIMULibCS", "RTIMULibCS\RTIMULibCS.csproj", "{C91BBCDD-0775-43FD-AB8D-E46FC1B07E14}"
 EndProject
