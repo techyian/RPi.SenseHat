@@ -39,34 +39,42 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Tools
 	internal static class Program
 	{
 		static async Task Main(string[] args)
-		{
+        {
 			ISenseHat senseHat = await SenseHatFactory.GetSenseHat().ConfigureAwait(false);
-			senseHat.Sensors.ImuSensor.Update();
-			//senseHat.Sensors.HumiditySensor.Update();
-			if(senseHat.Sensors.MagneticField.HasValue)
-			{
-				
-				Console.WriteLine(DateTime.Now);
-				Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
-				Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
-			}
-			else
-				Console.WriteLine("no mag");
+            senseHat.Display.Fill(Color.Blue);
+			senseHat.Display.Update();
+			//BinaryClock(senseHat);
+        }
 
-			await Task.Delay(2*1000);
-			senseHat.Sensors.ImuSensor.Update();
+        private static async Task Mag(ISenseHat senseHat)
+        {
+            
+            senseHat.Sensors.ImuSensor.Update();
+            //senseHat.Sensors.HumiditySensor.Update();
+            if (senseHat.Sensors.MagneticField.HasValue)
+            {
 
-			if(senseHat.Sensors.MagneticField.HasValue)
-			{
-				Console.WriteLine(DateTime.Now);
-				Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
-				Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
-			}
-			else
-				Console.WriteLine("no mag");
-		}
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
+                Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
+            }
+            else
+                Console.WriteLine("no mag");
 
-		 private static readonly Color _activeBitColor = Color.Red;
+            await Task.Delay(2 * 1000);
+            senseHat.Sensors.ImuSensor.Update();
+
+            if (senseHat.Sensors.MagneticField.HasValue)
+            {
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine($"Mag value:  x = {senseHat.Sensors.MagneticField.Value.X} y = {senseHat.Sensors.MagneticField.Value.Y} z = {senseHat.Sensors.MagneticField.Value.Z}");
+                Console.WriteLine(senseHat.Sensors.MagneticField?.ToString(true));
+            }
+            else
+                Console.WriteLine("no mag");
+        }
+
+        private static readonly Color _activeBitColor = Color.Red;
         private static readonly Color _inctiveBitColor = Color.DimGray;
 
 		private static void BinaryClock(ISenseHat senseHat)

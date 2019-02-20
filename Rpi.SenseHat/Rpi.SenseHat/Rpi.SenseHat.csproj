@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyTitle>Emmellsoft.IoT.Rpi.SenseHat</AssemblyTitle>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Emmellsoft.IoT.Rpi.SenseHat</AssemblyName>
     <PackageId>Emmellsoft.IoT.Rpi.SenseHat</PackageId>
     <RootNamespace>Emmellsoft.IoT.Rpi.SenseHat</RootNamespace>    
@@ -12,8 +12,6 @@
   
   <ItemGroup>
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0004" />
-    <!--PackageReference Include="Unosquare.Raspberry.IO" Version="0.18.0" />
-    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.2.3" /-->
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">    
 	<PackageReference Include="System.Drawing.Common">
@@ -22,8 +20,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="./../../../raspberryio/src/Unosquare.RaspberryIO/Unosquare.RaspberryIO.csproj" />    
-    <ProjectReference Include="./../../../raspberryio/src/Unosquare.RaspberryIO.Peripherals/Unosquare.RaspberryIO.Peripherals.csproj" />
     <ProjectReference Include="../RTIMULibCS/RTIMULibCS.csproj" />    
   </ItemGroup>
   <!-- <ItemGroup>

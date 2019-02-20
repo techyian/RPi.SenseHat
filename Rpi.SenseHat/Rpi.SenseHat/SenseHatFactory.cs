@@ -65,15 +65,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private static MainI2CDevice CreateDisplayJoystickI2CDevice()
 		{
-			var device = Pi.I2C.AddDevice(0x1c);
-			if(Pi.I2C.Devices.Count < 1)
-				Console.WriteLine("NO DEVICES :O");
-			foreach(var a in Pi.I2C.Devices)
-			{
-				Console.WriteLine("On devices - id =" + a.DeviceId);
-				Console.WriteLine(a.ToString());
-				Console.WriteLine("------------");
-			}
+			var device = Pi.I2C.AddDevice(0x46);
 		    
 			MainI2CDevice main = new MainI2CDevice(device);
 			Console.WriteLine("I2C created");

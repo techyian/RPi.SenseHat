@@ -16,7 +16,13 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-
+/Rpi.SenseHat/bin
+/Rpi.SenseHat/obj
+/Rpi.SenseHat.Tools/bin
+/Rpi.SenseHat.Tools/obj
+/RTIMULibCS/bin
+/RTIMULibCS/obj
+/.vs
 # Roslyn cache directories
 *.ide/
 
